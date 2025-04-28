@@ -1,0 +1,481 @@
+//===== rAthena Script =======================================
+//= Arch Mage Job Quest
+//===== By: ==================================================
+//= ProtonStarz
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Job change Quest from Warlock -> Arch Mage.
+//===== Additional Comments: =================================
+//= 1.0 First version. Disclaimer:  This is not the exact
+//      implemented version from the official game and I've
+//      made some custom changes that won't exactly follow the
+//      online walk throughs.  The hints are there though.
+//============================================================
+
+ba_maison,200,266,0  script  #job4magpath  HIDDEN_NPC,1,1,{
+        end;
+OnTouch_:
+        if (Class == Job_Warlock || Class == Job_Warlock_T) {
+                if (BaseLevel > 199 && JobLevel > 59) {
+                        if (job4archmage == 0) {
+                                cloakoffnpcself "Blue Hair Fairy#job4mag";
+                                cloakoffnpcself "Fairy Kid#job4mag";
+                                initnpctimer;
+                                set job4archmage,1;
+                        }
+                }
+        }
+        end;
+OnInit:
+        cloakonnpc "Blue Hair Fairy#job4mag";
+        cloakonnpc "Fairy Kid#job4mag";
+        end;
+
+OnTimer1000:
+        npctalk "Master Egnoloria is getting ready for her deep sleep.", "Blue Hair Fairy#job4mag", "bc_self";
+        end;
+
+OnTimer3000:
+        npctalk "There's a few things we need to prepare before she falls asleep.", "Blue Hair Fairy#job4mag", "bc_self";
+        end;
+
+OnTimer5000:
+        npctalk "Yes sir.", "Fairy Kid#job4mag", "bc_self";
+        sleep 1000;
+        npctalk "I'm ready to when you are sir.", "Fairy Kid#job4mag", "bc_self";
+        end;
+
+OnTimer8000:
+        npctalk "Let's go.", "Blue Hair Fairy#job4mag", "bc_self";
+        sleep 2000;
+        disablenpc "Blue Hair Fairy#job4mag";
+        sleep 1000;
+        disablenpc "Fairy Kid#job4mag";
+        areaannounce "ba_maison",189,276,206,260,"Master Egnoloria, whom I met for my Warlock job change, is getting ready for her Deep Sleep, and the fairies have a few things to do before she falls asleep. I should follow them and meet Egnoloria.",0;
+        sleep 2000;
+        end;
+
+OnStop:
+        stopnpctimer;
+        end;
+}
+
+ba_maison,204,268,5  script  Blue Hair Fairy#job4mag  439,{
+        end;
+}
+
+ba_maison,206,269,3  script  Fairy Kid#job4mag  440,{
+        end;
+}
+
+ba_maison,206,267,3  script  Strange Plant#job4mag  1080,{
+        if (Class == Job_Warlock || Class == Job_Warlock_T) {
+                if (BaseLevel > 199 && JobLevel > 59) {
+                        if (job4archmage <= 2) {
+                                warp "job4_mag",72,38;
+                                cloakoffnpcself "Yoop#job4mag";
+                                end;
+                        }
+                        else if (job4archmage > 2 && job4archmage <= 10) {
+                                warp "job4_mag",157,38;
+                                end;
+                        }
+                        npctalk "BROKEN";
+                        end;
+                }
+        }
+        else
+                npctalk "Seems like something is nearby.";
+        end;
+}
+
+job4_mag,72,43,5  script  Yoop#job4mag  446,{
+        mes "[Yoop]";
+        mes "Good to see you again.";
+        mes "I have a new challenge for you.";
+        mes "";
+        mes "Do you accept?";
+        next;
+        if (select("Yes:No") == 1) {
+                set job4archmage,2;
+                mes "[Yoop]";
+                mes "Go with Maggie to hunt 10 monsters and get 1 Burning Heart.";
+                close2;
+                cloakoffnpcself "Maggie#job4mag01";
+                sleep 1000;
+                cloakonnpcself "Yoop#job4mag";
+                areaannounce "job4_mag",65,50,80,35,"Egnoloria's assistant, Yoop, disappeared during our conversation. I should join Maggie to hunt 10 monsters and get 1 Burning Heart on the 3rd floor of the Thor Volcano Dungeon.", 0;
+        }
+        end;
+OnInit:
+        cloakonnpc "Maggie#job4mag01";
+        end;
+}
+
+job4_mag,76,45,3  script(CLOAKED)  Maggie#job4mag01  612,{
+        mes "[Maggie]";
+        mes "Ready to go hunting?";
+        close2;
+        switch(select("Take me there:Wait a moment:Send me back")) {
+                case 1:
+                        cloakonnpcself "Maggie#job4mag01";
+                        warp "thor_v03",44,283;
+                        cloakoffnpcself "#job4magk1";
+                        set job4mag_k1,0;
+                        end;
+                case 2: end;
+                case 3: warp "ba_maison",200,266; end;
+        }
+        end;
+}
+
+thor_v03,45,282,0  script(CLOAKED)  #job4magk1  HIDDEN_NPC,1,1,{
+        end;
+
+OnTouch:
+        if (job4archmage == 2) {
+                mapannounce "thor_v03","A Burning Heart to Maggie: Let the hunt begin.","bc_pc","0xFFFF00","normal",16;
+                set job4mag_k1,0;
+                set job4archmage,3;
+                end;
+        }
+        end;
+
+OnNPCKillEvent:
+        if (job4archmage == 3) { // check if player has the quest first (for efficiency)
+                if (killedrid == 1830 || killedrid == 1829 || killedrid == 1833 || killedrid == 1839 || killedrid == 1831 || killedrid == 2675 || killedrid == 1832) { // additional checks
+                        set job4mag_k1, job4mag_k1+1; // add kill to counter
+                        if (job4mag_k1 <= 10)
+                                mapannounce "thor_v03","KILL COUNT: "+job4mag_k1,"bc_pc","0x00FF00","normal",20;
+                        if (job4mag_k1 == 10) { // notify the player
+                                dispbottom "You are done the challenge.";
+                                mapannounce "thor_v03","A Burning Heart to Maggie: You are done the challenge.","bc_pc","0xFFFF00","normal",16;
+                                set job4archmage,4;
+                        }
+                }
+        }
+        end;
+}
+
+job4_mag,160,40,3  script  Maggie#job4mag03  612,{
+        switch(job4archmage) {
+        case 4:
+                if (countitem(7097) > 0) {
+                        cloakoffnpcself "Yoop#job4mag02";
+                        mes "[Maggie]";
+                        mes "Great efffort completing the first challenge and bringing 1 Burning Heart.";
+                        set job4archmage,5;
+                        close;
+                }
+                else
+                        npctalk "You don't seem to have a Burning Heart.";
+                end;
+        case 5:
+                mes "[Maggie]";
+                mes "Our second challenge:";
+                mes "Hunt 10 monsters and get 1 Mermaid's Heart in the Barmund Mansion's Bathhouse.";
+                next;
+                mes "[Maggie]";
+                mes "Are you ready?";
+                next;
+                if (select("Yes:No") == 1) {
+                        warp "ba_maison",197,260;
+                        cloakoffnpcself "#job4magk2";
+                        end;
+                }
+                mes "[Maggie]";
+                mes "Talk to me again when you're ready.";
+                close;
+        case 7:
+                if (countitem(950) > 0) {
+                        cloakoffnpcself "Yoop#job4mag02";
+                        mes "[Maggie]";
+                        mes "Great efffort completing the second challenge and bringing a Mermaid's Heart.";
+                        mes "We can proceed on to the next challenge.";
+                        set job4archmage,8;
+                        close;
+                }
+                else
+                        npctalk "You don't seem to have a Mermaid's Heart.";
+                end;
+        case 8:
+                cloakoffnpcself "Yoop#job4mag02";
+                mes "[Maggie]";
+                mes "Our third challenge:";
+                mes "Collect from Shining Plant for 1 Yggdrasil Seed.";
+                next;
+                mes "[Maggie]";
+                mes "Touch the orb when you're ready to depart.";
+                next;
+                announce "NEW QUEST: A Yggdrasil Seed to Maggie.","bc_pc","0x00FF00","normal", 20;
+                dispbottom "Hunting: 1 Shining Plant";
+                set job4mag_k3,0;
+                set job4archmage,9;
+                end;
+        case 9:
+                mes "[Maggie]";
+                if (countitem(608) > 0) {
+                        mes "Great. You collected an Yggdrasil Seed.";
+                        close2;
+                        set job4archmage,10;
+                        initnpctimer;
+                        end;
+                }
+                else {
+                        mes "You are all talk and no action. I await for the item requested.";
+                        close2;
+                }
+                end;
+        case 10:
+                mes "[Maggie]";
+                mes "Shall we follow Yoop?";
+                next;
+                if (select("Yes:No"))
+                        warp "job4_mag",115,117;
+                end;
+        }
+        end;
+
+OnTimer1000:
+        npctalk "Let's check all the materials gathered.", "Yoop#job4mag02", "bc_self";
+        end;
+
+OnTimer3000:
+        npctalk "1 Burning Heart. 1 Mermaid's Heart. 1 Yggdrasil Seed.", "Maggie#job4mag03", "bc_self";
+        end;
+
+OnTimer5000:
+        npctalk "It appears we have everything we need. Bring the items and follow me.", "Yoop#job4mag02", "bc_self";
+        disablenpc "Yoop#job4mag02";
+        end;
+
+OnStop:
+        stopnpctimer;
+        end;
+}
+
+job4_mag,157,40,5  script(CLOAKED)  Yoop#job4mag02  446,{
+        mes "[Yoop]";
+        mes "Do you want to leave?";
+        next;
+        if (select("Yes:No"))
+                warp "ba_maison",197,260;
+        end;
+}
+
+ba_bath,159,27,0  script(CLOAKED)  #job4magk2  HIDDEN_NPC,1,1,{
+        end;
+
+OnTouch:
+        if (job4archmage == 5) {
+                mapannounce "ba_bath","A Mermaid's Heart to Maggie: Let the hunt begin.","bc_pc","0xFFFF00","normal",16;
+                set job4mag_k2,0;
+                set job4archmage,6;
+                end;
+        }
+        end;
+
+OnNPCKillEvent:
+        if (job4archmage == 6) { // check if player has the quest first (for efficiency)
+                if (killedrid == 20633 || killedrid == 20634 || killedrid == 20643 || killedrid == 20644 || killedrid == 20645 || killedrid == 20646) { // additional checks
+                        set job4mag_k2, job4mag_k2+1; // add kill to counter
+                        if (job4mag_k2 <= 10)
+                                mapannounce "ba_bath","KILL COUNT: "+job4mag_k2,"bc_pc","0x00FF00","normal",20;
+                        if (job4mag_k2 == 10) { // notify the player
+                                dispbottom "You are done the challenge.";
+                                mapannounce "ba_bath","A Mermaid's Heart to Maggie: You are done the challenge.","bc_pc","0xFFFF00","normal",16;
+                                set job4archmage,7;
+                                cloakonnpcself "#job4magk2";
+                        }
+                }
+        }
+        end;
+}
+
+job4_mag,152,42,0  script  Orb#job4magk3  HIDDEN_NPC,{
+        if (job4archmage == 9) {
+                warp "ba_maison",197,260;
+                end;
+        }
+        end;
+
+OnNPCKillEvent:
+        if (job4archmage == 9) { // check if player has the quest first (for efficiency)
+                if (killedrid == 1083) { // additional checks
+                        set job4mag_k3, job4mag_k3+1; // add kill to counter
+                        if (job4mag_k3 < 1)
+                                announce "SHINING PLANT COLLECTED: "+job4mag_k3,"bc_pc","0x00FF00","normal",20;
+                        if (job4mag_k3 == 1) { // notify the player
+                                announce "A Yggdrasil Seed to Maggie: You are done the challenge.","bc_pc","0xFFFF00","normal",16;
+                                dispbottom "Remember to collect an Yggdrasil Seed before returning to Maggie.";
+                        }
+                }
+        }
+        end;
+}
+
+job4_mag,113,120,5  script  Yoop#job4mag03  446,{
+        if (job4mag_part2 < 1) {
+                set job4mag_part2, job4mag_part2+1;
+        }
+
+        npctalk "...";
+        end;
+}
+
+job4_mag,145,116,3  script  Hot Barrel#job4mag  802,{
+        mes "[Hot Barrel]";
+        mes "Do you want to throw something at it?";
+        next;
+        switch (select("Glass of Water:Small Barrel:Burning Heart")) {
+        case 1:
+                mes "Nothing happened.";
+                close;
+        case 2:
+                mes "The fire just gets bigger.";
+                close;
+        case 3:
+                if (countitem(7097) > 0) {
+                        delitem 7097,1;
+                        if (job4mag_hotbarrel < 1)
+                                set job4mag_part2, job4mag_part2+1;
+                        set job4mag_hotbarrel, 1;
+                        mes "Monsters are coming. Get ready.";
+                        close2;
+                        monster "job4_mag",140,120,"Quest Lava Toad",21300,1,"NPCNAME::OnLavaToadKilled";
+                        close;
+                }
+                else {
+                        mes "You don't seem to have a Burning Heart.";
+                        close;
+                }
+                end;
+        }
+        end;
+OnLavaToadKilled:
+        $LavaToadKilled++;
+        if ($LavaToadKilled >= 1) {
+                announce "Fairy: Well done. All the monsters are dead!","bc_pc";
+                $LavaToadKilled = 0;
+        }
+        end;
+}
+
+job4_mag,161,147,0  script  Boiling Pot#job4mag  HIDDEN_NPC,{
+        mes "[Boiling Pot]";
+        mes "What do you want to put into the pot?";
+        next;
+        switch (select("Your hand:Heart of Mermaid:Green Flask")) {
+        case 1:
+                mes "You're severely burned.";
+                close2;
+                percentheal -50,-50;
+                end;
+        case 2:
+                if (countitem(950) > 0) {
+                        if (job4mag_boilingpot < 1)
+                                set job4mag_part2, job4mag_part2+1;
+                        set job4mag_boilingpot,1;
+                        delitem 950,1;
+                        mes "Task completed. Looks good here.";
+                        close2;
+                        monster "job4_mag",159,156,"Quest Mermaid",2184,2;
+                        end;
+                }
+                else {
+                        mes "You don't seem to have a Heart of Mermaid.";
+                        close;
+                }
+                end;
+        case 3:
+                mes "A giant puff of green smoke fills the room.";
+                mes "You feel a bit sick.";
+                close2;
+                percentheal -75,0;
+                end;
+        }
+        end;
+}
+
+job4_mag,130,177,0  script  The Carpet#job4mag  HIDDEN_NPC,{
+        if (countitem(608) > 0 && job4mag_part2 >= 2 && job4mag_boilingpot == 1 && job4mag_hotbarrel == 1) {
+                mes "Plant the Yggdrasil seed?";
+                next;
+                if (select("Yes:No")) {
+                        delitem 608,1;
+                        warp "1@4mag",130,168;
+                        cloakoffnpc "Mana Spring#job4mag";
+                }
+                close;
+        }
+        end;
+}
+
+1@4mag,128,193,5  script  Yoop#job4mag04  446,{
+        end;
+}
+
+1@4mag,132,193,3  script  Maggie#job4mag04  612,{
+        end;
+}
+
+1@4mag,130,177,5  script  Mana Spring#job4mag  10044,{
+        announce "You feel immense energy flowing inside you.","bc_pc","0xFFFF00","normal",16;
+        dispbottom "SP Restored.";
+        percentheal 0,100;
+        end;
+}
+
+1@4mag,130,195,5  script  Master Egnoloria#job4mag  465,{
+        if (job4mag_me < 1) {
+                set job4mag_me,1;
+                initnpctimer;
+                end;
+        }
+        mes "[Egnoloria]";
+        mes "I can grant you one wish only.";
+        mes "What do you choose?";
+        next;
+        switch (select("I want to become a great magician:I want to become a ninja turtle:I want nothing")) {
+                case 1:
+                        if (Class == Job_Warlock || Class == Job_Warlock_T) {
+                                if (BaseLevel > 199 && JobLevel > 59) {
+                                        .@joblvl = 0;
+                                        jobchange 4255;
+                                        mes "Congatulations!";
+                                        close;
+                                }
+                        }
+                        end;
+                case 2:
+                        mes "[Egnoloria]";
+                        mes "For this, you will need to find Master Splinter.";
+                        close;
+                case 3:
+                        mes "[Egnoloria]";
+                        mes "That's unfortunate as I will soon be in deep sleep and shall not awaken for another 1000 years.";
+                        close;
+        }
+        end;
+
+OnTimer1000:
+        npctalk "Well. Look what we have here, a warlock seeks the master twice in this lifetime.", "", "bc_pc";
+        end;
+OnTimer3000:
+        npctalk "Master, this warlock has passed all the tests.", "Yoop#job4mag04", "bc_pc";
+        end;
+OnTimer5000:
+        npctalk "Is that so?", "", "bc_pc";
+        end;
+OnTimer7000:
+        npctalk "Yes, Master Egnoloria. I have confirmed all the tests were completed with authenticity.", "Maggie#job4mag04", "bc_pc";
+        set job4mag_me,1;
+        end;
+
+OnStop:
+        stopnpctimer;
+        end;
+}
