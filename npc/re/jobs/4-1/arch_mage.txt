@@ -402,7 +402,9 @@ job4_mag,161,147,0  script  Boiling Pot#job4mag  HIDDEN_NPC,{
 
 job4_mag,130,177,0  script  The Carpet#job4mag  HIDDEN_NPC,{
         if (countitem(608) > 0 && job4mag_part2 >= 2 && job4mag_boilingpot == 1 && job4mag_hotbarrel == 1) {
-                mes "Plant the Yggdrasil seed?";
+		mes "We'd made so much noise that Mana Spring woke up. I should talk to Master Egnoloria at the Mana Spring.";
+                mes " ";
+		mes "Plant the Yggdrasil seed?";
                 next;
                 if (select("Yes:No")) {
                         delitem 608,1;
