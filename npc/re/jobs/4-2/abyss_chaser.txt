@@ -1,0 +1,32 @@
+//===== rAthena Script =======================================
+//= Abyss Chaser Job Quest
+//===== By: ==================================================
+//= Protonstarz (aka evitearc)
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Job change Quest from Shadow Chaser -> Abyss Chaser
+//===== Additional Comments: =================================
+//= 1.0 First Version.
+//============================================================
+
+//= NPC Reset Script for Debug Only = // (HIDDEN_NPC is invisible sprite)
+//prt_fild08,180,377,5	script	NPCNAME#job4aby01	PAD_METAL_DRAGON,{
+//      mes "[Debug NPC Reset]"; mes "Reset all job variables?"; next;
+//      if (select("Confirm:Cancel")) {
+//              set job4abyss,0;
+//              mes "All variables are reset to default.";
+//      }       else mes "Request cancelled.";
+//      close;
+//}
+
+s_atelier,122,59,3	script	Vicente#job4aby01	899,{
+	end;
+}
+
+rachel,54,48,0	script	Julie#job4aby01	703,{
+	end;
+}
