@@ -26,19 +26,24 @@
 s_atelier,122,59,3	script	Vicente#job4aby01	899,{
 	end;
 }
+// 5 Crystal of Darkness (7799) and 20 Dark Piece (6089)
 
 rachel,54,48,4	script	Julie#job4aby01	703,{
 	end;
 }
 
-ve_fild02,53,189,0	script	Mulie#job4aby01	921,{
+ve_fild02,53,189,5	script	Mulie#job4aby01	921,{
 	end;
 }
 
-ve_fild02,54,187,0	script	Pale Shadow#job4aby01	844,{
+ve_fild02,54,187,5	script	Pale Shadow#job4aby01	844,{
 	end;
 }
 
-1@4sac,81,47,0	script	Doomk#job4aby01	10045,{
+ve_fild05,313,110,3	script	Doomk#job4aby01	20827,{
+	end;
+}
+
+1@4sac,81,47,4	script	Shadow#job4aby01	10045,{
 	end;
 }
