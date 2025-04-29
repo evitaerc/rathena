@@ -15,7 +15,7 @@
 //      online walk throughs.  The hints are there though.
 //============================================================
 
-ba_maison,200,266,0  script  #job4magpath  HIDDEN_NPC,1,1,{
+ba_maison,200,266,0	script	#job4magpath	HIDDEN_NPC,1,1,{
         end;
 OnTouch_:
         if (Class == Job_Warlock || Class == Job_Warlock_T) {
@@ -63,15 +63,15 @@ OnStop:
         end;
 }
 
-ba_maison,204,268,5  script  Blue Hair Fairy#job4mag  439,{
+ba_maison,204,268,5	script	Blue Hair Fairy#job4mag	439,{
         end;
 }
 
-ba_maison,206,269,3  script  Fairy Kid#job4mag  440,{
+ba_maison,206,269,3	script	Fairy Kid#job4mag	440,{
         end;
 }
 
-ba_maison,206,267,3  script  Strange Plant#job4mag  1080,{
+ba_maison,206,267,3	script	Strange Plant#job4mag	1080,{
         if (Class == Job_Warlock || Class == Job_Warlock_T) {
                 if (BaseLevel > 199 && JobLevel > 59) {
                         if (job4archmage <= 2) {
@@ -92,7 +92,7 @@ ba_maison,206,267,3  script  Strange Plant#job4mag  1080,{
         end;
 }
 
-job4_mag,72,43,5  script  Yoop#job4mag  446,{
+job4_mag,72,43,5	script	Yoop#job4mag	446,{
         mes "[Yoop]";
         mes "Good to see you again.";
         mes "I have a new challenge for you.";
@@ -115,7 +115,7 @@ OnInit:
         end;
 }
 
-job4_mag,76,45,3  script(CLOAKED)  Maggie#job4mag01  612,{
+job4_mag,76,45,3	script(CLOAKED)	Maggie#job4mag01	612,{
         mes "[Maggie]";
         mes "Ready to go hunting?";
         close2;
@@ -132,7 +132,7 @@ job4_mag,76,45,3  script(CLOAKED)  Maggie#job4mag01  612,{
         end;
 }
 
-thor_v03,45,282,0  script(CLOAKED)  #job4magk1  HIDDEN_NPC,1,1,{
+thor_v03,45,282,0	script(CLOAKED)	#job4magk1	HIDDEN_NPC,1,1,{
         end;
 
 OnTouch:
@@ -160,7 +160,7 @@ OnNPCKillEvent:
         end;
 }
 
-job4_mag,160,40,3  script  Maggie#job4mag03  612,{
+job4_mag,160,40,3	script	Maggie#job4mag03	612,{
         switch(job4archmage) {
         case 4:
                 if (countitem(7097) > 0) {
@@ -257,7 +257,7 @@ OnStop:
         end;
 }
 
-job4_mag,157,40,5  script(CLOAKED)  Yoop#job4mag02  446,{
+job4_mag,157,40,5	script(CLOAKED)	Yoop#job4mag02	446,{
         mes "[Yoop]";
         mes "Do you want to leave?";
         next;
@@ -266,7 +266,7 @@ job4_mag,157,40,5  script(CLOAKED)  Yoop#job4mag02  446,{
         end;
 }
 
-ba_bath,159,27,0  script(CLOAKED)  #job4magk2  HIDDEN_NPC,1,1,{
+ba_bath,159,27,0	script(CLOAKED)	#job4magk2	HIDDEN_NPC,1,1,{
         end;
 
 OnTouch:
@@ -295,7 +295,7 @@ OnNPCKillEvent:
         end;
 }
 
-job4_mag,152,42,0  script  Orb#job4magk3  HIDDEN_NPC,{
+job4_mag,152,42,0	script	Orb#job4magk3	HIDDEN_NPC,{
         if (job4archmage == 9) {
                 warp "ba_maison",197,260;
                 end;
@@ -317,7 +317,7 @@ OnNPCKillEvent:
         end;
 }
 
-job4_mag,113,120,5  script  Yoop#job4mag03  446,{
+job4_mag,113,120,5	script	Yoop#job4mag03	446,{
         if (job4mag_part2 < 1) {
                 set job4mag_part2, job4mag_part2+1;
         }
@@ -326,7 +326,7 @@ job4_mag,113,120,5  script  Yoop#job4mag03  446,{
         end;
 }
 
-job4_mag,145,116,3  script  Hot Barrel#job4mag  802,{
+job4_mag,145,116,3	script	Hot Barrel#job4mag	802,{
         mes "[Hot Barrel]";
         mes "Do you want to throw something at it?";
         next;
@@ -364,7 +364,7 @@ OnLavaToadKilled:
         end;
 }
 
-job4_mag,161,147,0  script  Boiling Pot#job4mag  HIDDEN_NPC,{
+job4_mag,161,147,0	script	Boiling Pot#job4mag	HIDDEN_NPC,{
         mes "[Boiling Pot]";
         mes "What do you want to put into the pot?";
         next;
@@ -382,7 +382,7 @@ job4_mag,161,147,0  script  Boiling Pot#job4mag  HIDDEN_NPC,{
                         delitem 950,1;
                         mes "Task completed. Looks good here.";
                         close2;
-                        monster "job4_mag",159,156,"Quest Mermaid",2184,2;
+                        monster "job4_mag",159,156,"Quest Mermaid",2184,1;
                         end;
                 }
                 else {
@@ -400,7 +400,7 @@ job4_mag,161,147,0  script  Boiling Pot#job4mag  HIDDEN_NPC,{
         end;
 }
 
-job4_mag,130,177,0  script  The Carpet#job4mag  HIDDEN_NPC,{
+job4_mag,130,177,0	script	The Carpet#job4mag	HIDDEN_NPC,{
         if (countitem(608) > 0 && job4mag_part2 >= 2 && job4mag_boilingpot == 1 && job4mag_hotbarrel == 1) {
 		mes "We'd made so much noise that Mana Spring woke up. I should talk to Master Egnoloria at the Mana Spring.";
                 mes " ";
@@ -416,22 +416,22 @@ job4_mag,130,177,0  script  The Carpet#job4mag  HIDDEN_NPC,{
         end;
 }
 
-1@4mag,128,193,5  script  Yoop#job4mag04  446,{
+1@4mag,128,193,5	script	Yoop#job4mag04	446,{
         end;
 }
 
-1@4mag,132,193,3  script  Maggie#job4mag04  612,{
+1@4mag,132,193,3	script	Maggie#job4mag04	612,{
         end;
 }
 
-1@4mag,130,177,5  script  Mana Spring#job4mag  10044,{
+1@4mag,130,177,5	script	Mana Spring#job4mag	10044,{
         announce "You feel immense energy flowing inside you.","bc_pc","0xFFFF00","normal",16;
         dispbottom "SP Restored.";
         percentheal 0,100;
         end;
 }
 
-1@4mag,130,195,5  script  Master Egnoloria#job4mag  465,{
+1@4mag,130,195,5	script	Master Egnoloria#job4mag	465,{
         if (job4mag_me < 1) {
                 set job4mag_me,1;
                 initnpctimer;
@@ -464,6 +464,7 @@ job4_mag,130,177,0  script  The Carpet#job4mag  HIDDEN_NPC,{
         end;
 
 OnTimer1000:
+	warpportal 115,116,"ba_maison",200,266;
         npctalk "Well. Look what we have here, a warlock seeks the master twice in this lifetime.", "", "bc_pc";
         end;
 OnTimer3000:
